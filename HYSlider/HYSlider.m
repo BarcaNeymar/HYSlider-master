@@ -162,14 +162,14 @@
     _hyMaxValue = 255.0;
 
     /* 默认滑动方式 */
-    self.moveType = HYSliderPanhMove;
+    self.moveType = HYSliderPanGRMove;
     
 }
 
 
-- (void)setMoveType:(HYSliderType)sliderType{
-      _sliderType = sliderType;
-    if(sliderType == HYSliderLongPressMove){
+- (void)setMoveType:(HYSliderMoveType)sliderMoveType{
+      _sliderMoveType = sliderMoveType;
+    if(sliderMoveType == HYSliderLongPressGRMove){
         [self removeGestureRecognizer:_panGR];
         [self addGestureRecognizer:self.longGR];
     }else{
@@ -189,7 +189,7 @@
     
     UIGestureRecognizer *grRecognizer;
     
-    if(self.sliderType == HYSliderLongPressMove){
+    if(self.sliderMoveType == HYSliderLongPressGRMove){
         grRecognizer = (UILongPressGestureRecognizer *) recognizer;
     }else{
         grRecognizer = (UIPanGestureRecognizer *) recognizer;

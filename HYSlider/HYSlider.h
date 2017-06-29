@@ -10,9 +10,9 @@
 
 
 typedef enum : NSUInteger {
-    HYSliderLongPressMove,
-    HYSliderPanhMove,
-} HYSliderType;
+    HYSliderLongPressGRMove,
+    HYSliderPanGRMove,
+} HYSliderMoveType;
 
 @class HYSlider;
 
@@ -63,7 +63,7 @@ typedef enum : NSUInteger {
 /**
  * 长按滑动或者触摸滑动
  */
-@property (nonatomic) HYSliderType sliderType;
+@property (nonatomic) HYSliderMoveType sliderMoveType;
 
 /**
  *  协议

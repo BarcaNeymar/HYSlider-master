@@ -30,9 +30,9 @@
     
     HYSlider *slider1 = [[HYSlider alloc]initWithFrame:CGRectMake(20, 100, self.view.frame.size.width - 40, 10)];
     /* 滑动方式 */
-    slider1.sliderType = HYSliderLongPressMove;
+    slider1.sliderMoveType = HYSliderLongPressGRMove;
     /* 当前颜色 */
-    slider1.currentValueColor = [UIColor redColor];
+    slider1.currentValueColor = [UIColor blueColor];
     /* 最大值 */
     slider1.maxValue = 255;
     /* 当前值 */
