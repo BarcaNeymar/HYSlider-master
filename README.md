@@ -2,7 +2,7 @@
 
 > 灵活多变,可自由组合您想要的slider,更多方式请下载查看!别忘了给个star哟亲~
 
-![image](https://github.com/hy285585804/HYSlider/blob/master/slider.gif)
+![image](https://github.com/hy285585804/HYSlider/blob/master/HYSlider.gif)
 
 ``` objc
 
