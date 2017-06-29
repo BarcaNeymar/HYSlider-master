@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+
+typedef enum : NSUInteger {
+    HYSliderLongPressMove,
+    HYSliderPanhMove,
+} HYSliderType;
+
 @class HYSlider;
 
 @protocol HYSliderDelegate <NSObject>
@@ -54,6 +60,10 @@
  */
 @property (nonatomic) BOOL showScrollTextView;
 
+/**
+ * 长按滑动或者触摸滑动
+ */
+@property (nonatomic) HYSliderType sliderType;
 
 /**
  *  协议

@@ -29,13 +29,23 @@
     [self.view addSubview:label1];
     
     HYSlider *slider1 = [[HYSlider alloc]initWithFrame:CGRectMake(20, 100, self.view.frame.size.width - 40, 10)];
+    /* 滑动方式 */
+    slider1.sliderType = HYSliderLongPressMove;
+    /* 当前颜色 */
     slider1.currentValueColor = [UIColor redColor];
+    /* 最大值 */
     slider1.maxValue = 255;
+    /* 当前值 */
     slider1.currentSliderValue = 200;
+    /* 文字显示颜色 */
     slider1.showTextColor = [UIColor redColor];
+    /* 是否显示圆形控件 */
     slider1.showTouchView = YES;
+    /* 是否显示浮标 */
     slider1.showScrollTextView = YES;
+    /* 圆形控件颜色 */
     slider1.touchViewColor = [UIColor redColor];
+    /* 代理 */
     slider1.delegate = self;
     [self.view addSubview:slider1];
     
@@ -147,7 +157,7 @@
     
     
     UILabel *label4 = [[UILabel alloc]initWithFrame:CGRectMake((self.view.bounds.size.width - 200)/2, CGRectGetMaxY(slider9.frame) + 20, 200, 200)];
-    label4.text  = @"/*\n\n个性定制化Slider(可触摸滑动)\n\n   -by YounG 2016\n\n*/";
+    label4.text  = @"/*\n\n个性定制化Slider(长按/触摸滑动两种方式)\n\n   -by YounG 2016\n\n 亲,如果对您有用,还请支持一下给个star哟~\n\n*/";
     label4.textColor = [UIColor blackColor];
     label4.numberOfLines = 0;
     label4.textAlignment = NSTextAlignmentCenter;

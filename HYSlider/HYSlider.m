@@ -15,6 +15,8 @@
 @property (nonatomic,strong) UILabel *scrollShowTextLabel;
 @property (nonatomic,strong) UIView *touchView;
 @property (nonatomic) CGFloat hyMaxValue;
+@property (nonatomic,strong) UILongPressGestureRecognizer *longGR;
+@property (nonatomic,strong) UIPanGestureRecognizer *panGR;
 @end
 @implementation HYSlider
 
@@ -35,6 +37,20 @@
     }
     return self;
 }
+
+- (UILongPressGestureRecognizer *)longGR{
+    if(!_longGR){
+        _longGR = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longGRAction:)];
+    }
+    return _longGR;
+}
+- (UIPanGestureRecognizer *)panGR{
+    if(!_panGR){
+        _panGR = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGRAction:)];
+    }
+    return _panGR;
+}
+
 
 - (void)setCurrentSliderValue:(CGFloat)currentSliderValue
 {
@@ -145,16 +161,41 @@
     /** 默认最大值*/
     _hyMaxValue = 255.0;
 
-    UILongPressGestureRecognizer *longGR = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longGRAction:)];
-    [self addGestureRecognizer:longGR];
+    /* 默认滑动方式 */
+    self.moveType = HYSliderPanhMove;
     
 }
 
 
+- (void)setMoveType:(HYSliderType)sliderType{
+      _sliderType = sliderType;
+    if(sliderType == HYSliderLongPressMove){
+        [self removeGestureRecognizer:_panGR];
+        [self addGestureRecognizer:self.longGR];
+    }else{
+        [self removeGestureRecognizer:_longGR];
+        [self addGestureRecognizer:self.panGR];
+    }
+}
 
+- (void)panGRAction:(UIPanGestureRecognizer *)recognizer{
+    [self addGRWithRecognizer:recognizer];
+}
 - (void)longGRAction:(UILongPressGestureRecognizer *)recognizer{
+     [self addGRWithRecognizer:recognizer];
+}
+
+- (void)addGRWithRecognizer:(id)recognizer{
     
-    if(recognizer.state == UIGestureRecognizerStateEnded){
+    UIGestureRecognizer *grRecognizer;
+    
+    if(self.sliderType == HYSliderLongPressMove){
+        grRecognizer = (UILongPressGestureRecognizer *) recognizer;
+    }else{
+        grRecognizer = (UIPanGestureRecognizer *) recognizer;
+    }
+    
+    if(grRecognizer.state == UIGestureRecognizerStateEnded){
         (!self.showScrollTextView) ? (self.scrollShowTextView.hidden = YES) : (self.scrollShowTextView.hidden = NO);
     }else{
         self.scrollShowTextView.hidden = NO;
@@ -162,29 +203,33 @@
         
         
         if((translation.x >=0 && ((_hyMaxValue/self.frame.size.width) * translation.x) <= _hyMaxValue)){
-          
+            
             self.leftView.frame           = CGRectMake(0, 0, translation.x, self.frame.size.height);
             self.scrollShowTextView.frame = CGRectMake((translation.x-18)>= 0 ? (translation.x-18):(0) ,- 48, 36, 43);
             self.textLabel .frame             = CGRectMake((self.leftView.frame.size.width - 20) >= 0 ? (self.leftView.frame.size.width - 20):(0) , 0, 20, self.frame.size.height);
             self.textLabel.text           = [NSString stringWithFormat:@"%.f",(_hyMaxValue/self.frame.size.width) * translation.x];
             self.scrollShowTextLabel.text = [NSString stringWithFormat:@"%.f",(_hyMaxValue/self.frame.size.width) * translation.x];
-
+            
             if(_showTouchView){
-            _touchView .frame             = CGRectMake(0, 0, self.frame.size.height + 10, self.frame.size.height + 10);
-            _touchView.center             = _textLabel.center;
+                _touchView .frame             = CGRectMake(0, 0, self.frame.size.height + 10, self.frame.size.height + 10);
+                _touchView.center             = _textLabel.center;
             }
-         
+            
             
             /** delegate*/
             if([self.delegate respondsToSelector:@selector(HYSlider:didScrollValue:)]){
-            [self.delegate HYSlider:self didScrollValue:(_hyMaxValue/self.frame.size.width) * translation.x];
+                [self.delegate HYSlider:self didScrollValue:(_hyMaxValue/self.frame.size.width) * translation.x];
             }
             
             
         }
-
+        
     }
+
 }
+
+
+
 
 
 
